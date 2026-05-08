@@ -1,213 +1,201 @@
-/* =============================================
+/* ============================================
    CUSTOM CURSOR
-   ============================================= */
-const cursor = document.createElement('div');
-cursor.classList.add('cursor');
-const follower = document.createElement('div');
-follower.classList.add('cursor-follower');
-document.body.appendChild(cursor);
-document.body.appendChild(follower);
+   ============================================ */
+const cursor    = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
 
-let mouseX = 0, mouseY = 0;
-let followerX = 0, followerY = 0;
-
-document.addEventListener('mousemove', (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursor.style.left = mouseX + 'px';
-  cursor.style.top  = mouseY + 'px';
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
 });
 
-function animateFollower() {
-  followerX += (mouseX - followerX) * 0.12;
-  followerY += (mouseY - followerY) * 0.12;
-  follower.style.left = followerX + 'px';
-  follower.style.top  = followerY + 'px';
-  requestAnimationFrame(animateFollower);
-}
-animateFollower();
+(function trackRing() {
+  rx += (mx - rx) * 0.1;
+  ry += (my - ry) * 0.1;
+  cursorRing.style.left = rx + 'px';
+  cursorRing.style.top  = ry + 'px';
+  requestAnimationFrame(trackRing);
+})();
 
-/* =============================================
-   NAV — SCROLL EFFECT
-   ============================================= */
+document.querySelectorAll('a, button, [data-hover]').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.classList.add('hover');
+    cursorRing.classList.add('hover');
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.classList.remove('hover');
+    cursorRing.classList.remove('hover');
+  });
+});
+
+/* ============================================
+   NAV — SCROLL
+   ============================================ */
 const nav = document.getElementById('nav');
-
 window.addEventListener('scroll', () => {
-  if (window.scrollY > 40) {
-    nav.classList.add('scrolled');
-  } else {
-    nav.classList.remove('scrolled');
-  }
+  nav.classList.toggle('scrolled', window.scrollY > 30);
 }, { passive: true });
 
-/* =============================================
-   NAV — MOBILE HAMBURGER
-   ============================================= */
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobileMenu');
+/* ============================================
+   NAV — MOBILE
+   ============================================ */
+const burger  = document.getElementById('burger');
+const drawer  = document.getElementById('drawer');
 
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('open');
-  mobileMenu.classList.toggle('open');
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  drawer.classList.toggle('open');
 });
+drawer.querySelectorAll('a').forEach(a =>
+  a.addEventListener('click', () => {
+    burger.classList.remove('open');
+    drawer.classList.remove('open');
+  })
+);
 
-// Close on link click
-mobileMenu.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    hamburger.classList.remove('open');
-    mobileMenu.classList.remove('open');
+/* ============================================
+   FADE-UP ON SCROLL
+   ============================================ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el    = entry.target;
+    const delay = parseInt(el.dataset.delay || 0);
+    // Stagger siblings in the same parent grid/list
+    const parent = el.parentElement;
+    const siblings = [...parent.querySelectorAll('.fade-up:not(.in)')];
+    const sibIdx = siblings.indexOf(el);
+    const extraDelay = parent.classList.contains('fade-up') ? 0 : sibIdx * 55;
+    setTimeout(() => el.classList.add('in'), delay + extraDelay);
+    observer.unobserve(el);
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+/* ============================================
+   HERO — IMMEDIATE REVEAL
+   ============================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  const heroEls = document.querySelectorAll('.hero .fade-up');
+  heroEls.forEach(el => {
+    const d = parseInt(el.dataset.delay || 0);
+    setTimeout(() => el.classList.add('in'), 100 + d);
   });
 });
 
-/* =============================================
-   SCROLL REVEAL
-   ============================================= */
-const revealEls = document.querySelectorAll('.reveal');
-
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      // Stagger children in the same parent
-      const siblings = Array.from(entry.target.parentElement.querySelectorAll('.reveal:not(.visible)'));
-      const idx = siblings.indexOf(entry.target);
-      const delay = Math.min(idx * 80, 400);
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, delay);
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -40px 0px'
-});
-
-revealEls.forEach(el => revealObserver.observe(el));
-
-/* =============================================
+/* ============================================
    FAQ ACCORDION
-   ============================================= */
-const faqItems = document.querySelectorAll('.faq__item');
-
-faqItems.forEach(item => {
-  const question = item.querySelector('.faq__question');
-  question.addEventListener('click', () => {
+   ============================================ */
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
     const isOpen = item.classList.contains('open');
-
-    // Close all
-    faqItems.forEach(i => i.classList.remove('open'));
-
-    // Toggle clicked
-    if (!isOpen) {
-      item.classList.add('open');
-    }
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
   });
 });
 
-/* =============================================
+/* ============================================
    CONTACT FORM
-   ============================================= */
-const contactForm = document.getElementById('contactForm');
-
-if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+   ============================================ */
+const cform = document.getElementById('cform');
+if (cform) {
+  cform.addEventListener('submit', e => {
     e.preventDefault();
-    const btn = contactForm.querySelector('button[type="submit"]');
-    const original = btn.textContent;
-    btn.textContent = 'Sent! We\'ll be in touch.';
-    btn.style.background = '#e8e0d0';
+    const btn = cform.querySelector('button[type="submit"]');
+    btn.textContent = '✓ Request sent — we\'ll be in touch soon.';
+    btn.style.background = '#1a1a1a';
+    btn.style.color = '#d4c9b8';
     btn.disabled = true;
     setTimeout(() => {
-      btn.textContent = original;
+      btn.textContent = 'Submit your request';
       btn.style.background = '';
+      btn.style.color = '';
       btn.disabled = false;
-      contactForm.reset();
-    }, 3500);
+      cform.reset();
+    }, 4000);
   });
 }
 
-/* =============================================
+/* ============================================
    SMOOTH ANCHOR SCROLL
-   ============================================= */
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      const offset = 80;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
+   ============================================ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    window.scrollTo({ top: target.getBoundingClientRect().top + scrollY - 72, behavior: 'smooth' });
+  });
+});
+
+/* ============================================
+   PORTFOLIO — TILT + COUNT-UP ON HOVER
+   ============================================ */
+document.querySelectorAll('.folio-item').forEach(item => {
+  const img  = item.querySelector('.folio-item__img');
+  const stat = item.querySelector('.folio-stat');
+  const target = parseInt(stat?.dataset.target || 0);
+  let animated = false;
+
+  item.addEventListener('mouseenter', () => {
+    if (!animated) {
+      animated = true;
+      let n = 0;
+      const step = () => {
+        n = Math.min(n + Math.ceil(target / 20), target);
+        stat.textContent = '+' + n + '%';
+        if (n < target) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
     }
+
+    // 3D tilt starts
+    item.addEventListener('mousemove', onTilt);
   });
-});
 
-/* =============================================
-   HERO HEADLINE — STAGGER ON LOAD
-   ============================================= */
-window.addEventListener('DOMContentLoaded', () => {
-  const heroContent = document.querySelector('.hero__content');
-  if (heroContent) {
-    setTimeout(() => heroContent.classList.add('visible'), 120);
-  }
-  const heroFeatured = document.querySelector('.hero__featured');
-  if (heroFeatured) {
-    setTimeout(() => heroFeatured.classList.add('visible'), 400);
-  }
-});
-
-/* =============================================
-   PARALLAX — subtle hero glow
-   ============================================= */
-const heroBgGlow = document.querySelector('.hero__bg-glow');
-if (heroBgGlow) {
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY * 0.3;
-    heroBgGlow.style.transform = `translateX(-50%) translateY(${y}px)`;
-  }, { passive: true });
-}
-
-/* =============================================
-   PORTFOLIO ITEMS — tilt on hover
-   ============================================= */
-document.querySelectorAll('.portfolio__item').forEach(item => {
-  item.addEventListener('mousemove', (e) => {
-    const rect = item.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width  - 0.5) * 8;
-    const y = ((e.clientY - rect.top)  / rect.height - 0.5) * 8;
-    item.querySelector('.portfolio__img').style.transform =
-      `perspective(600px) rotateX(${-y}deg) rotateY(${x}deg) scale(1.02)`;
-  });
   item.addEventListener('mouseleave', () => {
-    item.querySelector('.portfolio__img').style.transform = '';
+    img.style.transform = '';
+    item.removeEventListener('mousemove', onTilt);
   });
+
+  function onTilt(e) {
+    const r   = item.getBoundingClientRect();
+    const x   = ((e.clientX - r.left) / r.width  - 0.5) * 10;
+    const y   = ((e.clientY - r.top)  / r.height - 0.5) * 10;
+    img.style.transform = `perspective(700px) rotateX(${-y}deg) rotateY(${x}deg) scale(1.03)`;
+    img.style.transition = 'transform 0.1s linear';
+  }
 });
 
-/* =============================================
-   TYPING / NUMBER COUNT-UP (stats)
-   ============================================= */
-function countUp(el, target, duration = 1200) {
-  let start = 0;
-  const increment = target / (duration / 16);
-  const timer = setInterval(() => {
-    start += increment;
-    if (start >= target) { start = target; clearInterval(timer); }
-    el.textContent = '+' + Math.round(start) + '%';
-  }, 16);
-}
+/* ============================================
+   AMBIENT BLOB — MOUSE PARALLAX
+   ============================================ */
+const blob1 = document.querySelector('.ambient__blob--1');
+window.addEventListener('mousemove', e => {
+  const dx = (e.clientX / window.innerWidth  - 0.5) * 30;
+  const dy = (e.clientY / window.innerHeight - 0.5) * 20;
+  if (blob1) blob1.style.transform = `translateX(calc(-50% + ${dx}px)) translateY(${dy}px)`;
+}, { passive: true });
 
-// Trigger count-up when portfolio stats become visible
-const statsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const stat = entry.target;
-      const text = stat.textContent;
-      const match = text.match(/\+(\d+)%/);
-      if (match) {
-        countUp(stat, parseInt(match[1]));
-        statsObserver.unobserve(stat);
-      }
-    }
-  });
-}, { threshold: 0.5 });
+/* ============================================
+   HERO SCROLL PARALLAX
+   ============================================ */
+const heroH1 = document.querySelector('.hero__h1');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if (heroH1) heroH1.style.transform = `translateY(${y * 0.18}px)`;
+}, { passive: true });
 
-document.querySelectorAll('.portfolio__stat').forEach(el => statsObserver.observe(el));
+/* ============================================
+   TICKER — PAUSE ON HOVER
+   ============================================ */
+const tickerEl = document.getElementById('ticker');
+const marquee2 = document.getElementById('marquee2');
+[tickerEl, marquee2].forEach(el => {
+  if (!el) return;
+  el.addEventListener('mouseenter', () => el.style.animationPlayState = 'paused');
+  el.addEventListener('mouseleave', () => el.style.animationPlayState = 'running');
+});
