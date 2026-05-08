@@ -226,3 +226,47 @@ if (vid) {
     vid.load();
   });
 }
+
+/* ══════════════════════════════════════════
+   TESTIMONIAL CAROUSEL
+══════════════════════════════════════════ */
+(function() {
+  const track  = document.getElementById('testiTrack');
+  const dots   = document.querySelectorAll('.testi-dot');
+  const prev   = document.getElementById('testiPrev');
+  const next   = document.getElementById('testiNext');
+  if (!track) return;
+
+  const total  = document.querySelectorAll('.testi-slide').length;
+  let current  = 0;
+  let timer;
+
+  function goTo(idx) {
+    current = (idx + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function startAuto() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  next.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+  prev.addEventListener('click', () => { goTo(current - 1); startAuto(); });
+  dots.forEach(dot => dot.addEventListener('click', () => { goTo(+dot.dataset.idx); startAuto(); }));
+
+  // Touch / swipe
+  let startX = 0;
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend',   e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { goTo(current + (diff > 0 ? 1 : -1)); startAuto(); }
+  }, { passive: true });
+
+  // Pause on hover
+  track.closest('.testi-card').addEventListener('mouseenter', () => clearInterval(timer));
+  track.closest('.testi-card').addEventListener('mouseleave', startAuto);
+
+  startAuto();
+})();
