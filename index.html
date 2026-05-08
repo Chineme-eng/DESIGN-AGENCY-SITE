@@ -4,32 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sites — Design that drives decisions.</title>
-
-  <!-- Geist font — closest to the original -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- GRAIN OVERLAY -->
-  <div class="grain" aria-hidden="true"></div>
-
-  <!-- AMBIENT GLOW -->
+  <canvas class="grain-canvas" id="grainCanvas" aria-hidden="true"></canvas>
   <div class="ambient" aria-hidden="true">
-    <div class="ambient__blob ambient__blob--1"></div>
-    <div class="ambient__blob ambient__blob--2"></div>
+    <div class="amb amb--1"></div>
+    <div class="amb amb--2"></div>
+    <div class="amb amb--3"></div>
   </div>
+  <div class="cur" id="cur"></div>
+  <div class="cur-ring" id="curRing"></div>
 
-  <!-- CURSOR -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- ===================== NAV ===================== -->
   <header class="nav" id="nav">
-    <div class="nav__wrap">
+    <div class="nav__inner">
       <a href="#hero" class="nav__logo">Sites</a>
       <nav class="nav__links">
         <a href="#hero">Home</a>
@@ -39,9 +30,7 @@
         <a href="#contact">Contact</a>
       </nav>
       <a href="#contact" class="nav__cta">Get in touch</a>
-      <button class="nav__burger" id="burger" aria-label="Toggle menu">
-        <span></span><span></span>
-      </button>
+      <button class="nav__burger" id="burger" aria-label="Menu"><span></span><span></span></button>
     </div>
     <div class="nav__drawer" id="drawer">
       <a href="#hero">Home</a>
@@ -52,61 +41,44 @@
     </div>
   </header>
 
-  <!-- ===================== HERO ===================== -->
   <section class="hero" id="hero">
-    <div class="hero__inner">
-
-      <div class="hero__top fade-up">
-        <div class="pill">
-          <span class="pill__dot"></span>
-          Trusted by 500+ Brands
+    <div class="hero__video-wrap">
+      <video class="hero__video" autoplay muted loop playsinline preload="auto">
+        <source src="hero.mp4" type="video/mp4" />
+      </video>
+      <div class="hero__overlay"></div>
+    </div>
+    <div class="hero__body">
+      <div class="hero__inner">
+        <div class="fade-up" data-delay="0">
+          <div class="pill"><span class="pill__dot"></span>Trusted by 500+ Brands</div>
+        </div>
+        <h1 class="hero__h1 fade-up" data-delay="120">Design that<br /><em>drives decisions.</em></h1>
+        <p class="hero__sub fade-up" data-delay="240">Helping brands grow, convert, and stand out<br />with first-class digital experiences.</p>
+        <div class="hero__actions fade-up" data-delay="360">
+          <a href="#contact" class="btn-primary">Get in touch <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#portfolio" class="btn-ghost">View work</a>
         </div>
       </div>
-
-      <h1 class="hero__h1 fade-up" data-delay="100">
-        Design that<br />drives decisions.
-      </h1>
-
-      <p class="hero__sub fade-up" data-delay="200">
-        Helping brands grow, convert, and stand out with<br />first-class digital experiences.
-      </p>
-
-      <div class="hero__actions fade-up" data-delay="300">
-        <a href="#contact" class="btn-primary">Get in touch</a>
-      </div>
-
     </div>
-
-    <!-- Scrolling ticker -->
     <div class="ticker-bar">
+      <div class="ticker-fade ticker-fade--l"></div>
       <div class="ticker-track">
         <div class="ticker-inner" id="ticker">
-          <span>Selected Work</span><span class="dot">·</span>
-          <span>clandestine.com</span><span class="dot">·</span>
-          <span>visionwork.co</span><span class="dot">·</span>
-          <span>wildcrafted.io</span><span class="dot">·</span>
-          <span>pictelai.com</span><span class="dot">·</span>
-          <span>cloudwatch.io</span><span class="dot">·</span>
-          <span>Selected Work</span><span class="dot">·</span>
-          <span>clandestine.com</span><span class="dot">·</span>
-          <span>visionwork.co</span><span class="dot">·</span>
-          <span>wildcrafted.io</span><span class="dot">·</span>
-          <span>pictelai.com</span><span class="dot">·</span>
-          <span>cloudwatch.io</span><span class="dot">·</span>
+          <span>Selected Work</span><span class="tdot">·</span><span>clandestine.com</span><span class="tdot">·</span><span>visionwork.co</span><span class="tdot">·</span><span>wildcrafted.io</span><span class="tdot">·</span><span>pictelai.com</span><span class="tdot">·</span><span>cloudwatch.io</span><span class="tdot">·</span><span>biosynthesis.io</span><span class="tdot">·</span><span>Selected Work</span><span class="tdot">·</span><span>clandestine.com</span><span class="tdot">·</span><span>visionwork.co</span><span class="tdot">·</span><span>wildcrafted.io</span><span class="tdot">·</span><span>pictelai.com</span><span class="tdot">·</span><span>cloudwatch.io</span><span class="tdot">·</span><span>biosynthesis.io</span><span class="tdot">·</span>
         </div>
       </div>
+      <div class="ticker-fade ticker-fade--r"></div>
     </div>
-
-    <!-- Featured project -->
-    <div class="hero__project fade-up" data-delay="400">
+    <div class="hero__project fade-up" data-delay="500">
       <div class="project-card">
         <div class="project-card__media">
-          <div class="project-card__img project-card__img--clandestine">
+          <div class="project-card__img">
             <div class="project-card__chips">
-              <div class="chip"><img src="https://framerusercontent.com/images/lP356xsiELuKcDpIVaJpJD9ohg.svg" width="18" height="18" alt="" />Clande</div>
-              <div class="chip"><img src="https://framerusercontent.com/images/LD9dTtdRPvIs1mkTvhGUrPVZ6qI.png" width="18" height="18" alt="" />Vision</div>
-              <div class="chip"><img src="https://framerusercontent.com/images/WaPglTBd48tVPI9reeP02zQga0.svg" width="18" height="18" alt="" />Wild</div>
-              <div class="chip chip--more">+2</div>
+              <span class="chip"><img src="https://framerusercontent.com/images/lP356xsiELuKcDpIVaJpJD9ohg.svg" width="14" height="14" alt=""/>Clande</span>
+              <span class="chip"><img src="https://framerusercontent.com/images/LD9dTtdRPvIs1mkTvhGUrPVZ6qI.png" width="14" height="14" alt=""/>Vision</span>
+              <span class="chip"><img src="https://framerusercontent.com/images/WaPglTBd48tVPI9reeP02zQga0.svg" width="14" height="14" alt=""/>Wild</span>
+              <span class="chip chip--more">+3</span>
             </div>
           </div>
         </div>
@@ -114,445 +86,178 @@
           <span class="eyebrow">clandestine.com</span>
           <h3>Clandestine</h3>
           <p>A focused B2B product site designed to simplify complex security solutions and drive action. The result: +28% more demo requests.</p>
-          <a href="#portfolio" class="arrow-link">Read case study <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#portfolio" class="arrow-link">Read case study <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== PAIN ===================== -->
   <section class="section pain" id="about">
     <div class="wrap">
-      <div class="section-label fade-up">The problem</div>
-      <h2 class="section-h2 fade-up" data-delay="80">Do you know what ineffective<br />design really costs you?</h2>
+      <div class="s-label fade-up">The problem</div>
+      <h2 class="s-h2 fade-up" data-delay="80">Do you know what ineffective<br />design really costs you?</h2>
       <div class="pain-grid">
-        <div class="pain-item fade-up" data-delay="0">
-          <div class="pain-item__icon">
-            <img src="https://framerusercontent.com/images/hoDF9ejwzx07eK7xWkXnwmIDEU.png" width="28" height="28" alt="" />
-          </div>
-          <p>Lost attention in critical moments.</p>
-        </div>
-        <div class="pain-item fade-up" data-delay="60">
-          <div class="pain-item__icon">
-            <img src="https://framerusercontent.com/images/CIQtmri3er9rB6tbNJBSgPDVh8.png" width="28" height="28" alt="" />
-          </div>
-          <p>Missed opportunities to build trust.</p>
-        </div>
-        <div class="pain-item fade-up" data-delay="120">
-          <div class="pain-item__icon">
-            <img src="https://framerusercontent.com/images/N1KauAPPSjqZz8hGrXh914kem1A.png" width="28" height="28" alt="" />
-          </div>
-          <p>Potential customers who disengage.</p>
-        </div>
-        <div class="pain-item fade-up" data-delay="180">
-          <div class="pain-item__icon">
-            <img src="https://framerusercontent.com/images/BD3UbLIT0Kmd7BbzZQMynPdvVg.png" width="28" height="28" alt="" />
-          </div>
-          <p>Growth that never reaches its potential.</p>
-        </div>
+        <div class="pain-item fade-up" data-delay="0"><div class="pain-icon"><img src="https://framerusercontent.com/images/hoDF9ejwzx07eK7xWkXnwmIDEU.png" width="18" height="18" alt=""/></div><p>Lost attention in critical moments.</p></div>
+        <div class="pain-item fade-up" data-delay="55"><div class="pain-icon"><img src="https://framerusercontent.com/images/CIQtmri3er9rB6tbNJBSgPDVh8.png" width="18" height="18" alt=""/></div><p>Missed opportunities to build trust.</p></div>
+        <div class="pain-item fade-up" data-delay="110"><div class="pain-icon"><img src="https://framerusercontent.com/images/N1KauAPPSjqZz8hGrXh914kem1A.png" width="18" height="18" alt=""/></div><p>Potential customers who disengage.</p></div>
+        <div class="pain-item fade-up" data-delay="165"><div class="pain-icon"><img src="https://framerusercontent.com/images/BD3UbLIT0Kmd7BbzZQMynPdvVg.png" width="18" height="18" alt=""/></div><p>Growth that never reaches its potential.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== SERVICES ===================== -->
   <section class="section services">
     <div class="wrap">
-      <div class="section-label fade-up">Services</div>
-      <h2 class="section-h2 fade-up" data-delay="80">What we provide.</h2>
-      <p class="section-sub fade-up" data-delay="120">Our core services for high-performing digital design.</p>
-      <div class="services-grid">
-        <div class="svc-card fade-up" data-delay="0">
-          <div class="svc-card__icon"><img src="https://framerusercontent.com/images/iaPx1kxp4nAwpKPpRasCCPtXgA4.png" width="24" height="24" alt="" /></div>
-          <h4>Brand strategy &amp; identity</h4>
-          <p>Positioning, brand strategy, and identity systems that create clarity and direction.</p>
-        </div>
-        <div class="svc-card fade-up" data-delay="60">
-          <div class="svc-card__icon"><img src="https://framerusercontent.com/images/ye17EMIMaOdtSKAd5W1sDlhDwg.png" width="24" height="24" alt="" /></div>
-          <h4>Web design &amp; UI</h4>
-          <p>Clean, high-impact digital interfaces shaped around user needs and brand values.</p>
-        </div>
-        <div class="svc-card fade-up" data-delay="120">
-          <div class="svc-card__icon"><img src="https://framerusercontent.com/images/z19mTh67d1jJYusPnvtG58fv3M.png" width="24" height="24" alt="" /></div>
-          <h4>UX &amp; conversion design</h4>
-          <p>User experiences and interactions designed to attract attention and convert it into action.</p>
-        </div>
-        <div class="svc-card fade-up" data-delay="180">
-          <div class="svc-card__icon"><img src="https://framerusercontent.com/images/BD3UbLIT0Kmd7BbzZQMynPdvVg.png" width="24" height="24" alt="" /></div>
-          <h4>Digital product &amp; growth</h4>
-          <p>Ongoing product refinement, A/B testing, and experience-driven growth.</p>
-        </div>
+      <div class="s-label fade-up">Services</div>
+      <h2 class="s-h2 fade-up" data-delay="80">What we provide.</h2>
+      <p class="s-sub fade-up" data-delay="130">Our core services for high-performing digital design.</p>
+      <div class="svc-grid">
+        <div class="svc-card fade-up" data-delay="0"><div class="svc-icon"><img src="https://framerusercontent.com/images/iaPx1kxp4nAwpKPpRasCCPtXgA4.png" width="18" height="18" alt=""/></div><h4>Brand strategy &amp; identity</h4><p>Positioning, brand strategy, and identity systems that create clarity and direction.</p></div>
+        <div class="svc-card fade-up" data-delay="60"><div class="svc-icon"><img src="https://framerusercontent.com/images/ye17EMIMaOdtSKAd5W1sDlhDwg.png" width="18" height="18" alt=""/></div><h4>Web design &amp; UI</h4><p>Clean, high-impact digital interfaces shaped around user needs and brand values.</p></div>
+        <div class="svc-card fade-up" data-delay="120"><div class="svc-icon"><img src="https://framerusercontent.com/images/z19mTh67d1jJYusPnvtG58fv3M.png" width="18" height="18" alt=""/></div><h4>UX &amp; conversion design</h4><p>User experiences and interactions designed to attract attention and convert it into action.</p></div>
+        <div class="svc-card fade-up" data-delay="180"><div class="svc-icon"><img src="https://framerusercontent.com/images/BD3UbLIT0Kmd7BbzZQMynPdvVg.png" width="18" height="18" alt=""/></div><h4>Digital product &amp; growth</h4><p>Ongoing product refinement, A/B testing, and experience-driven growth.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== MARQUEE ===================== -->
-  <div class="marquee-band">
-    <div class="marquee-band__inner" id="marquee2">
-      <span>Chosen by industry leaders</span><span class="dot">·</span>
-      <span>500+ Brands</span><span class="dot">·</span>
-      <span>Chosen by industry leaders</span><span class="dot">·</span>
-      <span>500+ Brands</span><span class="dot">·</span>
-      <span>Chosen by industry leaders</span><span class="dot">·</span>
-      <span>500+ Brands</span><span class="dot">·</span>
-      <span>Chosen by industry leaders</span><span class="dot">·</span>
-      <span>500+ Brands</span><span class="dot">·</span>
-    </div>
+  <div class="mq-band">
+    <div class="mq-fade mq-fade--l"></div>
+    <div class="mq-inner" id="mq2"><span>Chosen by industry leaders</span><span class="tdot">·</span><span>500+ Brands</span><span class="tdot">·</span><span>Chosen by industry leaders</span><span class="tdot">·</span><span>500+ Brands</span><span class="tdot">·</span><span>Chosen by industry leaders</span><span class="tdot">·</span><span>500+ Brands</span><span class="tdot">·</span><span>Chosen by industry leaders</span><span class="tdot">·</span><span>500+ Brands</span><span class="tdot">·</span></div>
+    <div class="mq-fade mq-fade--r"></div>
   </div>
 
-  <!-- ===================== PORTFOLIO ===================== -->
   <section class="section portfolio" id="portfolio">
     <div class="wrap">
-      <div class="section-label fade-up">Portfolio</div>
-      <h2 class="section-h2 fade-up" data-delay="80">Projects that perform.</h2>
+      <div class="s-label fade-up">Portfolio</div>
+      <h2 class="s-h2 fade-up" data-delay="80">Projects that perform.</h2>
       <div class="folio-grid">
-        <a href="#" class="folio-item fade-up" data-delay="0">
-          <div class="folio-item__img folio--clandestine">
-            <div class="folio-item__hover">
-              <span class="folio-tag">B2B product site</span>
-              <span class="folio-stat" data-target="28">+0%</span>
-              <span class="folio-label">demo requests</span>
-            </div>
-          </div>
-          <div class="folio-item__foot">
-            <span class="folio-name">Clandestine</span>
-            <span class="folio-arrow">→</span>
-          </div>
-        </a>
-        <a href="#" class="folio-item fade-up" data-delay="60">
-          <div class="folio-item__img folio--visionwork">
-            <div class="folio-item__hover">
-              <span class="folio-tag">Agency website</span>
-              <span class="folio-stat" data-target="35">+0%</span>
-              <span class="folio-label">leads</span>
-            </div>
-          </div>
-          <div class="folio-item__foot">
-            <span class="folio-name">Visionwork</span>
-            <span class="folio-arrow">→</span>
-          </div>
-        </a>
-        <a href="#" class="folio-item fade-up" data-delay="120">
-          <div class="folio-item__img folio--biosynthesis">
-            <div class="folio-item__hover">
-              <span class="folio-tag">Website redesign</span>
-              <span class="folio-stat" data-target="18">+0%</span>
-              <span class="folio-label">engagement</span>
-            </div>
-          </div>
-          <div class="folio-item__foot">
-            <span class="folio-name">Biosynthesis</span>
-            <span class="folio-arrow">→</span>
-          </div>
-        </a>
-        <a href="#" class="folio-item fade-up" data-delay="0">
-          <div class="folio-item__img folio--wildcrafted">
-            <div class="folio-item__hover">
-              <span class="folio-tag">Agency website</span>
-              <span class="folio-stat" data-target="33">+0%</span>
-              <span class="folio-label">traffic</span>
-            </div>
-          </div>
-          <div class="folio-item__foot">
-            <span class="folio-name">Wildcrafted</span>
-            <span class="folio-arrow">→</span>
-          </div>
-        </a>
-        <a href="#" class="folio-item fade-up" data-delay="60">
-          <div class="folio-item__img folio--pictel">
-            <div class="folio-item__hover">
-              <span class="folio-tag">Landing page</span>
-              <span class="folio-stat" data-target="40">+0%</span>
-              <span class="folio-label">signups</span>
-            </div>
-          </div>
-          <div class="folio-item__foot">
-            <span class="folio-name">Pictel AI</span>
-            <span class="folio-arrow">→</span>
-          </div>
-        </a>
-        <a href="#" class="folio-item fade-up" data-delay="120">
-          <div class="folio-item__img folio--cloudwatch">
-            <div class="folio-item__hover">
-              <span class="folio-tag">SaaS website</span>
-              <span class="folio-stat" data-target="10">+0%</span>
-              <span class="folio-label">revenue</span>
-            </div>
-          </div>
-          <div class="folio-item__foot">
-            <span class="folio-name">Cloud Watch</span>
-            <span class="folio-arrow">→</span>
-          </div>
-        </a>
+        <a href="#" class="folio-item fade-up" data-delay="0"><div class="folio-img folio--clandestine"><div class="folio-overlay"><span class="f-tag">B2B product site</span><span class="f-stat" data-target="28">+0%</span><span class="f-label">demo requests</span></div></div><div class="folio-foot"><span class="folio-name">Clandestine</span><span class="folio-arr">→</span></div></a>
+        <a href="#" class="folio-item fade-up" data-delay="60"><div class="folio-img folio--visionwork"><div class="folio-overlay"><span class="f-tag">Agency website</span><span class="f-stat" data-target="35">+0%</span><span class="f-label">leads</span></div></div><div class="folio-foot"><span class="folio-name">Visionwork</span><span class="folio-arr">→</span></div></a>
+        <a href="#" class="folio-item fade-up" data-delay="120"><div class="folio-img folio--biosynthesis"><div class="folio-overlay"><span class="f-tag">Website redesign</span><span class="f-stat" data-target="18">+0%</span><span class="f-label">engagement</span></div></div><div class="folio-foot"><span class="folio-name">Biosynthesis</span><span class="folio-arr">→</span></div></a>
+        <a href="#" class="folio-item fade-up" data-delay="0"><div class="folio-img folio--wildcrafted"><div class="folio-overlay"><span class="f-tag">Agency website</span><span class="f-stat" data-target="33">+0%</span><span class="f-label">traffic</span></div></div><div class="folio-foot"><span class="folio-name">Wildcrafted</span><span class="folio-arr">→</span></div></a>
+        <a href="#" class="folio-item fade-up" data-delay="60"><div class="folio-img folio--pictel"><div class="folio-overlay"><span class="f-tag">Landing page</span><span class="f-stat" data-target="40">+0%</span><span class="f-label">signups</span></div></div><div class="folio-foot"><span class="folio-name">Pictel AI</span><span class="folio-arr">→</span></div></a>
+        <a href="#" class="folio-item fade-up" data-delay="120"><div class="folio-img folio--cloudwatch"><div class="folio-overlay"><span class="f-tag">SaaS website</span><span class="f-stat" data-target="10">+0%</span><span class="f-label">revenue</span></div></div><div class="folio-foot"><span class="folio-name">Cloud Watch</span><span class="folio-arr">→</span></div></a>
       </div>
     </div>
   </section>
 
-  <!-- ===================== TESTIMONIAL ===================== -->
-  <section class="section testimonial">
+  <section class="section testi">
     <div class="wrap">
       <div class="testi-card fade-up">
-        <div class="testi-card__glow"></div>
+        <div class="testi-glow"></div>
         <p class="testi-badge">Trusted by 500+ Brands</p>
         <blockquote>"Leads increased by 35%<br />in the first month."</blockquote>
-        <div class="testi-author">
-          <div class="testi-avatar">MR</div>
-          <div>
-            <strong>Maya Rinaldi</strong>
-            <span>CEO of Visionwork, Inc.</span>
-          </div>
-        </div>
+        <div class="testi-author"><div class="testi-av">MR</div><div><strong>Maya Rinaldi</strong><span>CEO of Visionwork, Inc.</span></div></div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== PRICING ===================== -->
   <section class="section pricing" id="pricing">
     <div class="wrap">
-      <div class="section-label fade-up">Pricing</div>
-      <h2 class="section-h2 fade-up" data-delay="80">Clarity in pricing.</h2>
-      <p class="section-sub fade-up" data-delay="120">Transparent pricing, tailored to project scope.</p>
-      <div class="pricing-grid">
+      <div class="s-label fade-up">Pricing</div>
+      <h2 class="s-h2 fade-up" data-delay="80">Clarity in pricing.</h2>
+      <p class="s-sub fade-up" data-delay="130">Transparent pricing, tailored to project scope.</p>
+      <div class="price-grid">
         <div class="price-card fade-up" data-delay="0">
-          <div class="price-card__head">
-            <div class="price-card__icon"><img src="https://framerusercontent.com/images/N6EoV39lGWPCfgThZTqBWL9bHM.png" width="22" height="22" alt="" /></div>
-            <div>
-              <h4>Standard</h4>
-              <p>For early-stage brands and quick launches</p>
-            </div>
-          </div>
-          <div class="price-card__amount">$6,500 <span>/ project</span></div>
+          <div class="price-head"><div class="price-icon"><img src="https://framerusercontent.com/images/N6EoV39lGWPCfgThZTqBWL9bHM.png" width="18" height="18" alt=""/></div><div><h4>Standard</h4><p>For early-stage brands and quick launches</p></div></div>
+          <div class="price-amt">$6,500 <span>/ project</span></div>
           <a href="#contact" class="btn-outline">Book a consultation</a>
-          <ul class="price-list">
-            <li>Brand identity</li>
-            <li>High-impact web design</li>
-            <li>Conversion-first UX</li>
-            <li>Responsive UI systems</li>
-            <li>Component library</li>
-            <li>Documentation</li>
-          </ul>
+          <ul class="price-list"><li>Brand identity</li><li>High-impact web design</li><li>Conversion-first UX</li><li>Responsive UI systems</li><li>Component library</li><li>Documentation</li></ul>
         </div>
-        <div class="price-card price-card--premium fade-up" data-delay="80">
-          <div class="price-card__glow"></div>
-          <div class="price-card__head">
-            <div class="price-card__icon"><img src="https://framerusercontent.com/images/lrNoeOIer7HnVjhbDJ34RlcwM.png" width="22" height="22" alt="" /></div>
-            <div>
-              <h4>Premium</h4>
-              <p>For high-growth companies and enterprises</p>
-            </div>
-          </div>
-          <div class="price-card__amount">$9,500 <span>/ project</span></div>
+        <div class="price-card price-card--premium fade-up" data-delay="90">
+          <div class="price-glow"></div>
+          <div class="price-head"><div class="price-icon"><img src="https://framerusercontent.com/images/lrNoeOIer7HnVjhbDJ34RlcwM.png" width="18" height="18" alt=""/></div><div><h4>Premium</h4><p>For high-growth companies and enterprises</p></div></div>
+          <div class="price-amt">$9,500 <span>/ project</span></div>
           <a href="#contact" class="btn-white">Book a consultation</a>
-          <ul class="price-list">
-            <li>Brand identity</li>
-            <li>High-impact web design</li>
-            <li>Conversion-first UX</li>
-            <li>Responsive UI systems</li>
-            <li>Component library</li>
-            <li>Documentation</li>
-          </ul>
+          <ul class="price-list"><li>Brand identity</li><li>High-impact web design</li><li>Conversion-first UX</li><li>Responsive UI systems</li><li>Component library</li><li>Documentation</li></ul>
         </div>
       </div>
-      <div class="price-feats fade-up">
-        <div class="price-feat">
-          <img src="https://framerusercontent.com/images/hoDF9ejwzx07eK7xWkXnwmIDEU.png" width="20" height="20" alt="" />
-          <strong>Transparent</strong>
-          <p>Clear scope. No hidden surprises.</p>
-        </div>
-        <div class="price-feat">
-          <img src="https://framerusercontent.com/images/CC3fn8C8Rd0JtyUKvgeBcUsMmgI.png" width="20" height="20" alt="" />
-          <strong>Structured</strong>
-          <p>Defined phases. Predictable outcomes.</p>
-        </div>
-        <div class="price-feat">
-          <img src="https://framerusercontent.com/images/O5ZuKxyLd9lsMCXiGZsp70y38OQ.png" width="20" height="20" alt="" />
-          <strong>Scalable</strong>
-          <p>Built to grow with your business.</p>
-        </div>
+      <div class="price-feats fade-up" data-delay="80">
+        <div class="price-feat"><img src="https://framerusercontent.com/images/hoDF9ejwzx07eK7xWkXnwmIDEU.png" width="18" height="18" alt=""/><strong>Transparent</strong><p>Clear scope. No hidden surprises.</p></div>
+        <div class="price-feat"><img src="https://framerusercontent.com/images/CC3fn8C8Rd0JtyUKvgeBcUsMmgI.png" width="18" height="18" alt=""/><strong>Structured</strong><p>Defined phases. Predictable outcomes.</p></div>
+        <div class="price-feat"><img src="https://framerusercontent.com/images/O5ZuKxyLd9lsMCXiGZsp70y38OQ.png" width="18" height="18" alt=""/><strong>Scalable</strong><p>Built to grow with your business.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== COMPARISON ===================== -->
   <section class="section comparison">
     <div class="wrap">
-      <div class="section-label fade-up">Comparison</div>
-      <h2 class="section-h2 fade-up" data-delay="80">What sets us apart?</h2>
-      <div class="compare-grid fade-up" data-delay="160">
-        <div class="compare-col compare-col--them">
-          <h5>Other agencies</h5>
-          <ul>
-            <li><span class="x-icon">✕</span> Execute what you ask</li>
-            <li><span class="x-icon">✕</span> Focus on deliverables</li>
-            <li><span class="x-icon">✕</span> Fixed processes</li>
-            <li><span class="x-icon">✕</span> Safe design decisions</li>
-            <li><span class="x-icon">✕</span> Handover &amp; goodbye</li>
-          </ul>
-        </div>
-        <div class="compare-col compare-col--us">
-          <div class="compare-col__glow"></div>
-          <h5>Sites</h5>
-          <ul>
-            <li><span class="check-icon">✓</span> Rethink what you need</li>
-            <li><span class="check-icon">✓</span> Focus on business impact</li>
-            <li><span class="check-icon">✓</span> Adaptive systems</li>
-            <li><span class="check-icon">✓</span> Bold, strategic design</li>
-            <li><span class="check-icon">✓</span> Long-term partner</li>
-          </ul>
-        </div>
+      <div class="s-label fade-up">Comparison</div>
+      <h2 class="s-h2 fade-up" data-delay="80">What sets us apart?</h2>
+      <div class="cmp-grid fade-up" data-delay="160">
+        <div class="cmp-col cmp-col--them"><h5>Other agencies</h5><ul><li><span class="xi">✕</span>Execute what you ask</li><li><span class="xi">✕</span>Focus on deliverables</li><li><span class="xi">✕</span>Fixed processes</li><li><span class="xi">✕</span>Safe design decisions</li><li><span class="xi">✕</span>Handover &amp; goodbye</li></ul></div>
+        <div class="cmp-col cmp-col--us"><div class="cmp-glow"></div><h5>Sites</h5><ul><li><span class="ci">✓</span>Rethink what you need</li><li><span class="ci">✓</span>Focus on business impact</li><li><span class="ci">✓</span>Adaptive systems</li><li><span class="ci">✓</span>Bold, strategic design</li><li><span class="ci">✓</span>Long-term partner</li></ul></div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== BLOG ===================== -->
   <section class="section blog" id="blog">
     <div class="wrap">
-      <div class="section-label fade-up">Blog</div>
-      <h2 class="section-h2 fade-up" data-delay="80">From the studio.</h2>
-      <p class="section-sub fade-up" data-delay="120">Articles on strategy, UX, and the thinking behind high-performing design.</p>
+      <div class="s-label fade-up">Blog</div>
+      <h2 class="s-h2 fade-up" data-delay="80">From the studio.</h2>
+      <p class="s-sub fade-up" data-delay="130">Articles on strategy, UX, and the thinking behind high-performing design.</p>
       <div class="blog-grid">
-        <a href="#" class="blog-card fade-up" data-delay="0">
-          <div class="blog-card__img blog-card__img--1"></div>
-          <div class="blog-card__body">
-            <span class="eyebrow">Blog · Mar 9, 2026</span>
-            <h4>Design systems enable scale</h4>
-          </div>
-        </a>
-        <a href="#" class="blog-card fade-up" data-delay="60">
-          <div class="blog-card__img blog-card__img--2"></div>
-          <div class="blog-card__body">
-            <span class="eyebrow">Blog · Jan 28, 2026</span>
-            <h4>The hidden cost of unclear UX</h4>
-          </div>
-        </a>
-        <a href="#" class="blog-card fade-up" data-delay="120">
-          <div class="blog-card__img blog-card__img--3"></div>
-          <div class="blog-card__body">
-            <span class="eyebrow">Blog · Jan 11, 2026</span>
-            <h4>Looks don't drive results</h4>
-          </div>
-        </a>
+        <a href="#" class="blog-card fade-up" data-delay="0"><div class="blog-img blog-img--1"></div><div class="blog-body"><span class="eyebrow">Blog · Mar 9, 2026</span><h4>Design systems enable scale</h4></div></a>
+        <a href="#" class="blog-card fade-up" data-delay="65"><div class="blog-img blog-img--2"></div><div class="blog-body"><span class="eyebrow">Blog · Jan 28, 2026</span><h4>The hidden cost of unclear UX</h4></div></a>
+        <a href="#" class="blog-card fade-up" data-delay="130"><div class="blog-img blog-img--3"></div><div class="blog-body"><span class="eyebrow">Blog · Jan 11, 2026</span><h4>Looks don't drive results</h4></div></a>
       </div>
-      <div class="blog-more fade-up"><a href="#" class="arrow-link">View all articles <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      <div class="blog-more fade-up" data-delay="60"><a href="#" class="arrow-link">View all articles <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
     </div>
   </section>
 
-  <!-- ===================== FAQ ===================== -->
   <section class="section faq">
     <div class="wrap">
-      <div class="section-label fade-up">FAQ</div>
-      <h2 class="section-h2 fade-up" data-delay="80">Frequently asked questions.</h2>
-      <div class="faq-list fade-up" data-delay="160">
-        <div class="faq-item">
-          <button class="faq-q">What does Sites specialize in? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>We specialize in high-performing digital design — combining brand strategy, web design, and conversion-focused UX to drive measurable business results.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Who do you typically work with? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>We work with ambitious early-stage startups through enterprise companies who understand that great design is a growth lever, not just an aesthetic choice.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">How do projects usually start? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>We start with a discovery call to understand your goals, audience, and constraints. From there we'll scope a proposal and kick off with a strategy sprint.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Is support available after launch? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>Yes. We offer ongoing retainer arrangements for clients who want a long-term design partner for continuous iteration and growth.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">How does Sites ensure quality? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>Every project goes through structured review stages, usability checks, and performance benchmarks before delivery.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">How quickly can a project start? <span class="faq-icon">+</span></button>
-          <div class="faq-a"><p>Typically within 1–2 weeks of contract signing, depending on our current queue. Reach out early to lock in your spot.</p></div>
-        </div>
+      <div class="s-label fade-up">FAQ</div>
+      <h2 class="s-h2 fade-up" data-delay="80">Frequently asked questions.</h2>
+      <div class="faq-list fade-up" data-delay="140">
+        <div class="faq-item"><button class="faq-q">What does Sites specialize in?<span class="faq-ico">+</span></button><div class="faq-a"><p>We specialize in high-performing digital design — combining brand strategy, web design, and conversion-focused UX to drive measurable business results.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Who do you typically work with?<span class="faq-ico">+</span></button><div class="faq-a"><p>We work with ambitious early-stage startups through enterprise companies who understand that great design is a growth lever, not just an aesthetic choice.</p></div></div>
+        <div class="faq-item"><button class="faq-q">How do projects usually start?<span class="faq-ico">+</span></button><div class="faq-a"><p>We start with a discovery call to understand your goals, audience, and constraints. From there we'll scope a proposal and kick off with a strategy sprint.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Is support available after launch?<span class="faq-ico">+</span></button><div class="faq-a"><p>Yes. We offer ongoing retainer arrangements for clients who want a long-term design partner for continuous iteration and growth.</p></div></div>
+        <div class="faq-item"><button class="faq-q">How does Sites ensure quality?<span class="faq-ico">+</span></button><div class="faq-a"><p>Every project goes through structured review stages, usability checks, and performance benchmarks before delivery.</p></div></div>
+        <div class="faq-item"><button class="faq-q">How quickly can a project start?<span class="faq-ico">+</span></button><div class="faq-a"><p>Typically within 1–2 weeks of contract signing, depending on our current queue. Reach out early to lock in your spot.</p></div></div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== CONTACT ===================== -->
   <section class="section contact" id="contact">
     <div class="wrap">
       <div class="contact-card fade-up">
-        <div class="contact-card__glow"></div>
-        <div class="section-label">Let's talk</div>
-        <h2 class="section-h2">Ready for design<br />with real impact?</h2>
-        <p class="section-sub">Share a few details and we'll get back to you shortly.</p>
+        <div class="contact-glow"></div>
+        <div class="s-label" style="justify-content:center">Let's talk</div>
+        <h2 class="s-h2" style="text-align:center">Ready for design<br />with real impact?</h2>
+        <p class="s-sub" style="text-align:center;max-width:100%;margin-bottom:40px">Share a few details and we'll get back to you shortly.</p>
         <form class="cform" id="cform" novalidate>
-          <div class="cform__row">
-            <div class="cform__field">
-              <label>Name *</label>
-              <input type="text" name="name" placeholder="Your name" required />
-            </div>
-            <div class="cform__field">
-              <label>Email *</label>
-              <input type="email" name="email" placeholder="your@email.com" required />
-            </div>
+          <div class="cform-row">
+            <div class="cform-field"><label>Name *</label><input type="text" name="name" placeholder="Your name" required /></div>
+            <div class="cform-field"><label>Email *</label><input type="email" name="email" placeholder="your@email.com" required /></div>
           </div>
-          <div class="cform__field">
-            <label>Project type</label>
-            <select name="project">
-              <option value="">Select…</option>
-              <option>Website / Redesign</option>
-              <option>Brand &amp; Identity</option>
-              <option>UX &amp; Conversion</option>
-              <option>Ongoing design</option>
-              <option>Other</option>
-            </select>
-          </div>
+          <div class="cform-field"><label>Project type</label><select name="project"><option value="">Select…</option><option>Website / Redesign</option><option>Brand &amp; Identity</option><option>UX &amp; Conversion</option><option>Ongoing design</option><option>Other</option></select></div>
           <button type="submit" class="btn-primary btn-primary--full">Submit your request</button>
         </form>
       </div>
     </div>
   </section>
 
-  <!-- ===================== FOOTER ===================== -->
   <footer class="footer">
     <div class="wrap">
-      <div class="footer__grid">
-        <div class="footer__brand">
+      <div class="footer-grid">
+        <div class="footer-brand">
           <a href="#hero" class="nav__logo">Sites</a>
           <p>Designed to perform.</p>
-          <div class="footer__socials">
-            <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-            </a>
-            <a href="https://x.com" target="_blank" rel="noopener" aria-label="X">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
+          <div class="footer-socials">
+            <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://x.com" target="_blank" rel="noopener" aria-label="X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
           </div>
         </div>
-        <div class="footer__cols">
-          <div class="footer__col">
-            <h6>Main</h6>
-            <a href="#hero">Home</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-          </div>
-          <div class="footer__col">
-            <h6>Pages</h6>
-            <a href="#portfolio">Portfolio</a>
-            <a href="#blog">Blog</a>
-            <a href="#">404</a>
-          </div>
-          <div class="footer__col">
-            <h6>Social</h6>
-            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
-            <a href="https://instagram.com" target="_blank">Instagram</a>
-            <a href="https://x.com" target="_blank">X (Twitter)</a>
-          </div>
-          <div class="footer__col">
-            <h6>Legal</h6>
-            <a href="#">Privacy policy</a>
-            <a href="#">Terms of service</a>
-            <a href="#">Cookie policy</a>
-          </div>
+        <div class="footer-cols">
+          <div class="footer-col"><h6>Main</h6><a href="#hero">Home</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+          <div class="footer-col"><h6>Pages</h6><a href="#portfolio">Portfolio</a><a href="#blog">Blog</a><a href="#">404</a></div>
+          <div class="footer-col"><h6>Social</h6><a href="https://linkedin.com" target="_blank">LinkedIn</a><a href="https://instagram.com" target="_blank">Instagram</a><a href="https://x.com" target="_blank">X (Twitter)</a></div>
+          <div class="footer-col"><h6>Legal</h6><a href="#">Privacy policy</a><a href="#">Terms of service</a><a href="#">Cookie policy</a></div>
         </div>
       </div>
-      <div class="footer__bottom">
+      <div class="footer-bottom">
         <p>© 2026 Sites, Inc. All rights reserved.</p>
         <p>Designed with precision. Built for the world.</p>
       </div>
